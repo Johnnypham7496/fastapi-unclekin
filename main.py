@@ -11,3 +11,10 @@ app = FastAPI(
 async def welcome(response: Response):
     response.status_cod = status.HTTP_200_OK
     return{"message": "Hello, welcome to Autobots FastAPI bootcamp"}
+
+
+
+@app.get("/health", tags=['health'], response_description="Retrives heatlh status of this application")
+async def heatlh(response: Response):
+    response.status_code = status.HTTP_200_OK
+    return{"status": "OK"}
