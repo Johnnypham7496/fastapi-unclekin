@@ -1,3 +1,4 @@
+import uvicorn 
 from fastapi import FastAPI, Response, status, Depends
 from db import user_db
 from db_config import engine
