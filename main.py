@@ -1,6 +1,10 @@
 from fastapi import FastAPI, Response, status
 
-app = FastAPI()
+app = FastAPI(
+    title="Johnny's-FastAPI",
+    description="This is the swagger spec for the FastApi workshop",
+    version='1.0.0'
+)
 
 
 @app.get("/", tags=['welcome'], response_description="Displays welcome message")
