@@ -24,7 +24,7 @@ def get_by_username(username: str, reponse: Response, db: Session = Depends(get_
     return_value = user_repository.get_by_username(db, username)
 
     if return_value == None:
-        reponse_text = "username not found. Please check our parameter and try agin"
+        reponse_text = "username not found. Please check your parameter and try again"
         raise HTTPException(status_code= status.HTTP_404_NOT_FOUND, detail=reponse_text)
 
     reponse.status_code = status.HTTP_200_OK
