@@ -14,3 +14,9 @@ class UserModel(BaseModel):
 
 class MessageModel(BaseModel):
     detail: str
+
+
+class CreateUserModel(BaseModel):
+    username: str
+    email: str
+    role: str
