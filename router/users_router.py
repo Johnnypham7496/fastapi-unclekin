@@ -1,8 +1,8 @@
-from fastapi import FastAPI, Response, status, APIRouter, Depends
+from fastapi import FastAPI, Response, status, APIRouter, Depends, HTTPException
 from repository import user_repository
 from sqlalchemy.orm import Session
 from db_config import get_db
-from schemas import UserModel
+from schemas import UserModel, MessageModel
 
 
 router = APIRouter(
@@ -18,8 +18,14 @@ def get_users(response: Response, db: Session = Depends(get_db)):
     return return_value
 
 
-@router.get("/{username}", response_description="Display user by username", description="Retrieves user by username", response_model=UserModel)
+@router.get("/{username}", response_description="Display user by username", description="Retrieves user by username", response_model=UserModel,
+            responses={404: {"model": MessageModel}})
 def get_by_username(username: str, reponse: Response, db: Session = Depends(get_db)):
     return_value = user_repository.get_by_username(db, username)
+
+    if return_value == None:
+        reponse_text = "username not found. Please check our parameter and try agin"
+        raise HTTPException(status_code= status.HTTP_404_NOT_FOUND, detail=reponse_text)
+
     reponse.status_code = status.HTTP_200_OK
     return return_value
