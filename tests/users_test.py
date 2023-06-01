@@ -80,7 +80,7 @@ def test_tc0001_get_all(client):
     td_email = "darth.vader@gmail.com"
     td_expected_record_count = 3
 
-    response = client.get("/users/v1")
+    response = client.get(f"/users/v1")
 
     assert response.status_code == 200
     assert response.json()[td_first_record]["id"] == td_id
@@ -88,3 +88,29 @@ def test_tc0001_get_all(client):
     assert response.json()[td_first_record]["username"] == td_username
     assert response.json()[td_first_record]["email"] == td_email
     assert len(response.json()) == td_expected_record_count
+
+
+
+def test_tc0002_get_by_username(client):
+    td_role = "villian"
+    td_id = 1
+    td_username = "darth.vader"
+    td_email = "darth.vader@gmail.com"
+
+    response = client.get(f"/users/v1/{td_username}")
+
+    assert response.status_code == 200
+    assert response.json()["id"] == td_id
+    assert response.json()["role"] == td_role
+    assert response.json()["username"] == td_username
+    assert response.json()["email"] == td_email
+
+
+def test_tc0003_get_by_username(client):
+    td_username = "this.is.bad"
+    td_message = "username not found. Please check your parameter and try again"
+
+    response = client.get(f"/users/v1/{td_username}")
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == td_message

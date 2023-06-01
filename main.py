@@ -1,3 +1,4 @@
+import uvicorn 
 from fastapi import FastAPI, Response, status, Depends
 from db import user_db
 from db_config import engine
@@ -26,3 +27,7 @@ app.include_router(users_router.router)
 #     response_text = '{"message": "Database created."}'
 #     response = Response(content=response_text, status_code=200, media_type='application/json')
 #     return response
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="localhost", port=8000)
