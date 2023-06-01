@@ -32,7 +32,7 @@ def get_by_username(username: str, reponse: Response, db: Session = Depends(get_
 
 
 @router.post("/", response_description="Successfully created user", description="Creates a user", response_model=UserModel, status_code=201, responses={400: {"model": MessageModel}})
-def add_user(request: CreateUserModel, response= Response, db: Session = Depends(get_db)):
+def add_user(request: CreateUserModel, response: Response, db: Session = Depends(get_db)):
     username_request = request.username
     email_request = request.email
     role_request = request.role

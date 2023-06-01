@@ -1,6 +1,7 @@
 import pytest
 import sys
 import os
+import json
 from typing import Any
 from typing import Generator
 from fastapi import FastAPI
@@ -114,3 +115,32 @@ def test_tc0003_get_by_username(client):
 
     assert response.status_code == 404
     assert response.json()["detail"] == td_message
+
+
+def test_tc0004_post(client):
+    td_role = "hero"
+    td_username = "bat.man"
+    td_email = "batman@gmail.com"
+    td_header_location = "users/v1/bat.man"
+
+
+    response = client.post("/users/v1", data=json.dumps(dict(
+        username=td_username,
+        email=td_email,
+        role=td_role
+    )), content='application/json')
+
+
+    assert response.status_code == 201
+    assert response.headers["Location"] == td_header_location
+    assert response.json()["username"] == td_username
+    assert response.json()["email"] == td_email
+    assert response.json()["role"] == td_role
+
+    get_response = client.get(f'/users/v1/{td_username}')
+    
+    assert isinstance(get_response.json()["id"], int)
+
+    assert get_response.json()["username"] == td_username
+    assert get_response.json()["email"] == td_email
+    assert get_response.json()["role"] == td_role
