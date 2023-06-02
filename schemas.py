@@ -1,4 +1,5 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Optional
+
 
 
 class UserModel(BaseModel):
@@ -10,6 +11,11 @@ class UserModel(BaseModel):
 
     class Config:
         orm_mode = True
+        
+
+class UpdateUserModel(BaseModel):
+    email: Optional[str]
+    role: Optional[str]
 
 
 class MessageModel(BaseModel):
