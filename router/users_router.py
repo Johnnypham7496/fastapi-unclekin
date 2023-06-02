@@ -91,3 +91,9 @@ def update_user(username: str, request: UpdateUserModel, response: Response, db:
     
     response.status_code = status.HTTP_204_NO_CONTENT
     return user_repository.update_user(db, username, email_request, role_request)
+
+
+@router.delete("/{username}", response_description="Successfully deleted user", description="Deletes user by username", status_code=204, responses={204: {"model": None}})
+def delete_user(username: str, response: Response, db: Session = Depends(get_db)):
+    response.status_code=status.HTTP_204_NO_CONTENT
+    return user_repository.delete_user(db, username)

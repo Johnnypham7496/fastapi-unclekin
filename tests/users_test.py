@@ -278,3 +278,26 @@ def test_tc0013_empty_fields(client):
 
     assert response.status_code == 400
     assert response.json()["detail"] == td_message
+
+
+def test_tc0014_delete(client):
+    td_username = "delete.user"
+    td_email = "delete@gmail.com"
+    td_role = "tester"
+
+    response = client.post('/users/v1', data=json.dumps(dict(
+        username=td_username,
+        email=td_email,
+        role=td_role
+    )), content='application/json')
+  
+    response = client.delete('/users/v1/' + td_username)
+    assert response.status_code == 204
+
+
+    td_message = "username not found. Please check your parameter and try again"
+
+    response = client.get(f"/users/v1/{td_username}")
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == td_message
