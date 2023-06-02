@@ -1,4 +1,5 @@
-from pydantic import BaseModel, Optional
+from pydantic import BaseModel
+from typing import Optional
 
 
 
@@ -11,7 +12,7 @@ class UserModel(BaseModel):
 
     class Config:
         orm_mode = True
-        
+
 
 class UpdateUserModel(BaseModel):
     email: Optional[str]
